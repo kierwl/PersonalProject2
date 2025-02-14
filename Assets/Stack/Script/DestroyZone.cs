@@ -1,12 +1,14 @@
 using UnityEngine;
-
-public class DestroyZone : MonoBehaviour
+namespace StackNamespace
 {
-    private void OnCollisionEnter(Collision collision)
+    public class DestroyZone : MonoBehaviour
     {
-        if (collision.gameObject.name.Equals("Rubble"))
+        private void OnCollisionEnter(Collision collision)
         {
-            Destroy(collision.gameObject);
+            if (collision.gameObject.name.Equals("Rubble"))
+            {
+                Destroy(collision.gameObject);
+            }
         }
     }
 }
