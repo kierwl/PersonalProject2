@@ -1,7 +1,6 @@
 using UnityEngine;
 namespace Topdown
 {
-    //[RequireComponent(typeof(AnimationHandler))]
     public class BaseController : MonoBehaviour
     {
         protected Rigidbody2D _rigidbody;
@@ -18,12 +17,25 @@ namespace Topdown
         private Vector2 knockback = Vector2.zero;
         private float knockbackDuration = 0.0f;
 
+        protected StatHandler statHandler;
+
+        [SerializeField] public WeaponHandler WeaponPrefab;
         protected AnimationHandler animationHandler;
+        protected WeaponHandler weaponHandler;
+
+        protected bool isAttacking;
+        private float timeSinceLastAttack = float.MaxValue;
 
         protected virtual void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             animationHandler = GetComponent<AnimationHandler>();
+            statHandler = GetComponent<StatHandler>();
+
+            if (WeaponPrefab != null)
+                weaponHandler = Instantiate(WeaponPrefab, weaponPivot);
+            else
+                weaponHandler = GetComponentInChildren<WeaponHandler>();
         }
 
         protected virtual void Start()
@@ -35,11 +47,12 @@ namespace Topdown
         {
             HandleAction();
             Rotate(lookDirection);
+            HandleAttackDelay();
         }
 
         protected virtual void FixedUpdate()
         {
-            Movement(movementDirection);
+            Movment(movementDirection);
             if (knockbackDuration > 0.0f)
             {
                 knockbackDuration -= Time.fixedDeltaTime;
@@ -51,9 +64,9 @@ namespace Topdown
 
         }
 
-        public void Movement(Vector2 direction)
+        private void Movment(Vector2 direction)
         {
-            direction = direction * 5;
+            direction = direction * statHandler.Speed;
             if (knockbackDuration > 0.0f)
             {
                 direction *= 0.2f;
@@ -61,11 +74,7 @@ namespace Topdown
             }
 
             _rigidbody.velocity = direction;
-
-            if (animationHandler != null)
-            {
-                animationHandler.Move(direction);
-            }
+            animationHandler.Move(direction);
         }
 
         private void Rotate(Vector2 direction)
@@ -79,6 +88,8 @@ namespace Topdown
             {
                 weaponPivot.rotation = Quaternion.Euler(0, 0, rotZ);
             }
+
+            weaponHandler?.Rotate(isLeft);
         }
 
         public void ApplyKnockback(Transform other, float power, float duration)
@@ -86,7 +97,29 @@ namespace Topdown
             knockbackDuration = duration;
             knockback = -(other.position - transform.position).normalized * power;
         }
-    }
 
+        private void HandleAttackDelay()
+        {
+            if (weaponHandler == null)
+                return;
+
+            if (timeSinceLastAttack <= weaponHandler.Delay)
+            {
+                timeSinceLastAttack += Time.deltaTime;
+            }
+
+            if (isAttacking && timeSinceLastAttack > weaponHandler.Delay)
+            {
+                timeSinceLastAttack = 0;
+                Attack();
+            }
+        }
+
+        protected virtual void Attack()
+        {
+            if (lookDirection != Vector2.zero)
+                weaponHandler?.Attack();
+        }
+    }
 
 }
