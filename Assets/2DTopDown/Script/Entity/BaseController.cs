@@ -1,6 +1,7 @@
 using UnityEngine;
 namespace Topdown
 {
+    //[RequireComponent(typeof(AnimationHandler))]
     public class BaseController : MonoBehaviour
     {
         protected Rigidbody2D _rigidbody;
@@ -17,9 +18,12 @@ namespace Topdown
         private Vector2 knockback = Vector2.zero;
         private float knockbackDuration = 0.0f;
 
+        protected AnimationHandler animationHandler;
+
         protected virtual void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
+            animationHandler = GetComponent<AnimationHandler>();
         }
 
         protected virtual void Start()
@@ -35,10 +39,10 @@ namespace Topdown
 
         protected virtual void FixedUpdate()
         {
-            Movment(movementDirection);
+            Movement(movementDirection);
             if (knockbackDuration > 0.0f)
             {
-                knockbackDuration -= Time.fixedDeltaTime; // 고정된 델타 시간만큼 넉백 지속 시간을 감소
+                knockbackDuration -= Time.fixedDeltaTime;
             }
         }
 
@@ -47,7 +51,7 @@ namespace Topdown
 
         }
 
-        private void Movment(Vector2 direction)
+        public void Movement(Vector2 direction)
         {
             direction = direction * 5;
             if (knockbackDuration > 0.0f)
@@ -57,11 +61,16 @@ namespace Topdown
             }
 
             _rigidbody.velocity = direction;
+
+            if (animationHandler != null)
+            {
+                animationHandler.Move(direction);
+            }
         }
 
         private void Rotate(Vector2 direction)
         {
-            float rotZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // 벡터의 아크탄젠트 값을 라디언에서 디그리로 변경
+            float rotZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             bool isLeft = Mathf.Abs(rotZ) > 90f;
 
             characterRenderer.flipX = isLeft;
@@ -75,8 +84,9 @@ namespace Topdown
         public void ApplyKnockback(Transform other, float power, float duration)
         {
             knockbackDuration = duration;
-            knockback = -(other.position - transform.position).normalized * power; // 벡터의 방향값 * 힘의크기
+            knockback = -(other.position - transform.position).normalized * power;
         }
     }
+
 
 }
