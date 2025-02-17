@@ -19,6 +19,8 @@ namespace Topdown
 
         public bool fxOnDestory = true;
 
+        private ProjectileManager projectileManager;
+
         private void Awake()
         {
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -56,8 +58,10 @@ namespace Topdown
         }
 
 
-        public void Init(Vector2 direction, RangeWeaponHandler weaponHandler)
+        public void Init(Vector2 direction, RangeWeaponHandler weaponHandler, ProjectileManager projectileManager)
         {
+            this.projectileManager = projectileManager;
+
             rangeWeaponHandler = weaponHandler;
 
             this.direction = direction;
@@ -77,6 +81,11 @@ namespace Topdown
 
         private void DestroyProjectile(Vector3 position, bool createFx)
         {
+            if (createFx)
+            {
+                projectileManager.CreateImpactParticlesAtPostion(position, rangeWeaponHandler);
+            }
+
             Destroy(this.gameObject);
         }
     }
