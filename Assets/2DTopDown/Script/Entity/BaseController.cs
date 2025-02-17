@@ -20,8 +20,8 @@ namespace Topdown
         protected StatHandler statHandler;
 
         [SerializeField] public WeaponHandler WeaponPrefab;
-        protected AnimationHandler animationHandler;
         protected WeaponHandler weaponHandler;
+        protected AnimationHandler animationHandler;
 
         protected bool isAttacking;
         private float timeSinceLastAttack = float.MaxValue;
@@ -121,5 +121,6 @@ namespace Topdown
                 weaponHandler?.Attack();
         }
     }
+
 
 }
