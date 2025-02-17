@@ -79,16 +79,13 @@ namespace Topdown
             isReady = true;
         }
 
-        private void DestroyProjectile(Vector3 position, bool createFx)
+        private void DestroyProjectile(Vector3 position, bool createFx = true)
         {
-            if (createFx)
-            {
-                projectileManager.CreateImpactParticlesAtPostion(position, rangeWeaponHandler);
-            }
-
+            projectileManager.CreateImpactParticlesAtPostion(position, rangeWeaponHandler);
             Destroy(this.gameObject);
         }
     }
+
 }
 
 

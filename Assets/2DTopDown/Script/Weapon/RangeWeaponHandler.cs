@@ -41,12 +41,9 @@ namespace Topdown
         public override void Attack()
         {
             base.Attack();
-            Debug.Log("RangeWeaponHandler Attack 메서드 호출됨");
 
             float projectilesAngleSpace = multipleProjectilesAngel;
             int numberOfProjectilesPerShot = numberofProjectilesPerShot;
-
-            Debug.Log("numberOfProjectilesPerShot: " + numberOfProjectilesPerShot);
 
             float minAngle = -(numberOfProjectilesPerShot / 2f) * projectilesAngleSpace + 0.5f * multipleProjectilesAngel;
 
@@ -55,22 +52,16 @@ namespace Topdown
                 float angle = minAngle + projectilesAngleSpace * i;
                 float randomSpread = Random.Range(-spread, spread);
                 angle += randomSpread;
-                Debug.Log("CreateProjectile 호출 전");
                 CreateProjectile(Controller.LookDirection, angle);
             }
-            Debug.Log("화살을 만들어라!");
         }
 
         private void CreateProjectile(Vector2 lookDirection, float angle)
         {
-            Debug.Log("CreateProjectile 메서드 호출됨");
-            Debug.Log("lookDirection: " + lookDirection);
-
             projectileManager.ShootBullet(
                 this,
                 projectileSpawnPosition.position,
                 RotateVector2(lookDirection, angle));
-            Debug.Log("화살 만드는중");
         }
         private static Vector2 RotateVector2(Vector2 v, float degree)
         {
