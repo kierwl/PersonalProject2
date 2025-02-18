@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 namespace StackNamespace
 {
     public class HomeUI : BaseUI
@@ -31,7 +31,7 @@ namespace StackNamespace
 
         void OnClickExitButton()
         {
-            uiManager.OnClickExit();
+            SceneManager.LoadScene("MetaVerse");
         }
 
     }

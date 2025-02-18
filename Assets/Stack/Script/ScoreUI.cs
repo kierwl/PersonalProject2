@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 namespace StackNamespace
 {
     public class ScoreUI : BaseUI
@@ -47,7 +48,7 @@ namespace StackNamespace
 
         void OnClickExitButton()
         {
-            uiManager.OnClickExit();
+            SceneManager.LoadScene("MetaVerse");
         }
     }
 }

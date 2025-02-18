@@ -25,7 +25,7 @@ namespace Topdown
 
         public void OnClickExitButton()
         {
-            Application.Quit();
+            SceneManager.LoadScene("MetaVerse");
         }
 
         protected override UIState GetUIState()

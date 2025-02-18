@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 namespace Topdown
 {
     public class HomeUI : BaseUI
@@ -19,12 +20,12 @@ namespace Topdown
         public void OnClickStartButton()
         {
             GameManager.instance.StartGame();
-            Debug.Log("Click");
+            
         }
 
         public void OnClickExitButton()
         {
-            Application.Quit();
+            SceneManager.LoadScene("MetaVerse");
         }
 
         protected override UIState GetUIState()
