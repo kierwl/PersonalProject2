@@ -9,7 +9,7 @@ namespace Metaverse
         public float moveSpeed = 5f;     // 이동 속도
         public float jumpHeight = 0.5f;  // 점프 높이 (0.5)
         public float jumpDuration = 0.3f; // 점프 지속 시간
-        public float verticalMoveSpeed = 3f; // Y축 이동 속도 (E/Q)
+        public float verticalMoveSpeed = 5f; // Y축 이동 속도 (E/Q)
 
         private Vector3 originalPosition; // 점프 전 위치 저장
         private bool isJumping = false;   // 점프 상태 체크
