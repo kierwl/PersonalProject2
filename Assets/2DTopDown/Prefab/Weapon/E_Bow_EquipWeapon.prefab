@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 6352485476052576729}
   - component: {fileID: 3232681882601119415}
   m_Layer: 0
-  m_Name: P_Bow_EquipWeapon
+  m_Name: E_Bow_EquipWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -183,23 +183,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 108e8f75c7bc1764ab50c3935f89f07e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 0.5
-  weaponSize: 0.7
-  power: 5
-  speed: 10
+  delay: 0.4
+  weaponSize: 0.5
+  power: 1
+  speed: 4
   attackRange: 10
   target:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 128
   isOnKnockback: 0
   knockbackPower: 1
   knockbackTime: 0.1
   attackSoundClip: {fileID: 8300000, guid: fd571f667fbb6cb478f0f01d90cdb132, type: 3}
   projectileSpawnPosition: {fileID: 4155042747803155487}
   bulletIndex: 0
-  bulletSize: 1
+  bulletSize: 0.5
   duration: 10
-  spread: 20
-  numberofProjectilesPerShot: 3
-  multipleProjectilesAngel: 3
-  projectileColor: {r: 1, g: 1, b: 1, a: 1}
+  spread: 1
+  numberofProjectilesPerShot: 1
+  multipleProjectilesAngel: 1
+  projectileColor: {r: 1, g: 0, b: 0, a: 1}

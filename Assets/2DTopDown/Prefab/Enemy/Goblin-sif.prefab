@@ -11,10 +11,12 @@ GameObject:
   - component: {fileID: 277631397787447865}
   - component: {fileID: 4465317352348203413}
   - component: {fileID: 1572663708280774070}
-  - component: {fileID: 8196377179764570285}
-  - component: {fileID: 7559692457987037306}
-  m_Layer: 7
-  m_Name: Goblin
+  - component: {fileID: 1538846050155516098}
+  - component: {fileID: 5284789592338572450}
+  - component: {fileID: 6180092385819763665}
+  - component: {fileID: 4300935528523059699}
+  m_Layer: 8
+  m_Name: Goblin-sif
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64,7 +66,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &1572663708280774070
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -97,7 +99,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.19487}
+  m_Offset: {x: 0.056348443, y: -0.1623612}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -108,9 +110,9 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.38974}
+  m_Size: {x: 0.67924714, y: 0.7005551}
   m_EdgeRadius: 0
---- !u!114 &8196377179764570285
+--- !u!114 &1538846050155516098
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,12 +121,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2185654443368014854}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12c8136104a48d5439eb7dca3e00d9e4, type: 3}
+  m_Script: {fileID: 11500000, guid: d13168e81633f704488d28e626ae3003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  speed: 3
---- !u!114 &7559692457987037306
+  characterRenderer: {fileID: 4508590546483171793}
+  weaponPivot: {fileID: 1950828082540090405}
+  WeaponPrefab: {fileID: 4900903920160143114, guid: b44141c36427ba143b82518a2a854935, type: 3}
+  followRange: 15
+--- !u!114 &5284789592338572450
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -137,6 +141,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthChangeDelay: 0.5
+  damageClip: {fileID: 8300000, guid: ba20dc4079769f549b46a27669ffb983, type: 3}
+--- !u!114 &6180092385819763665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2185654443368014854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12c8136104a48d5439eb7dca3e00d9e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 1
+  speed: 3
+--- !u!114 &4300935528523059699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2185654443368014854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d67002679067fb44486759523f981949, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5205651636863039303
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,7 +179,7 @@ GameObject:
   - component: {fileID: 3595270767508739091}
   - component: {fileID: 5852263926538150566}
   - component: {fileID: 5759162135958681169}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DustParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5037,7 +5068,7 @@ GameObject:
   - component: {fileID: 4508590546483171793}
   - component: {fileID: 4988421109489834563}
   - component: {fileID: 1029299945795770393}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: MainSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5155,7 +5186,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1950828082540090405}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: WeaponPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}

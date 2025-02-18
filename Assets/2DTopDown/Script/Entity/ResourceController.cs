@@ -16,7 +16,7 @@ namespace Topdown
 
         public float CurrentHealth { get; private set; }
         public float MaxHealth => statHandler.Health;
-
+        public AudioClip damageClip;
         private void Awake()
         {
             statHandler = GetComponent<StatHandler>();
@@ -56,6 +56,8 @@ namespace Topdown
             if (change < 0)
             {
                 animationHandler.Damage();
+                if (damageClip != null)
+                    SoundManager.PlayClip(damageClip);
 
             }
 
@@ -69,7 +71,7 @@ namespace Topdown
 
         private void Death()
         {
-
+            baseController.Death();
         }
 
     }

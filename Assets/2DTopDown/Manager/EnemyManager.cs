@@ -1,15 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Random = UnityEngine.Random;
 namespace Topdown
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine;
-    using Random = UnityEngine.Random;
-
     public class EnemyManager : MonoBehaviour
     {
         private Coroutine waveRoutine;
@@ -30,8 +24,21 @@ namespace Topdown
         [SerializeField] private float timeBetweenSpawns = 0.2f;
         [SerializeField] private float timeBetweenWaves = 1f;
 
+        GameManager gameManager;
+
+        public void Init(GameManager gameManager)
+        {
+            this.gameManager = gameManager;
+        }
+
         public void StartWave(int waveCount)
         {
+            if (waveCount <= 0)
+            {
+                gameManager.EndOfWave();
+                return;
+            }
+
             if (waveRoutine != null)
                 StopCoroutine(waveRoutine);
             waveRoutine = StartCoroutine(SpawnWave(waveCount));
@@ -78,6 +85,7 @@ namespace Topdown
             // 적 생성 및 리스트에 추가
             GameObject spawnedEnemy = Instantiate(randomPrefab, new Vector3(randomPosition.x, randomPosition.y), Quaternion.identity);
             EnemyController enemyController = spawnedEnemy.GetComponent<EnemyController>();
+            enemyController.Init(this, gameManager.player.transform);
 
             activeEnemies.Add(enemyController);
         }
@@ -96,12 +104,11 @@ namespace Topdown
             }
         }
 
-        private void Update()
+        public void RemoveEnemyOnDeath(EnemyController enemy)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                StartWave(1);
-            }
+            activeEnemies.Remove(enemy);
+            if (enemySpawnComplite && activeEnemies.Count == 0)
+                gameManager.EndOfWave();
         }
     }
 
