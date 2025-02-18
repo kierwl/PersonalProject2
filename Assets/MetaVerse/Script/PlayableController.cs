@@ -20,15 +20,15 @@ namespace Metaverse
             // 추가 기능: 대시 (Dash) 구현
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                Dash();
+                //Dash();
             }
         }
 
-        void Dash()
+        /*void Dash()
         {
             Vector3 dashPosition = transform.position + (Vector3)moveInput * 2f;
             transform.position = dashPosition;
             Debug.Log($"{playerName}가 대시했습니다!");
-        }
+        }*/
     }
 }

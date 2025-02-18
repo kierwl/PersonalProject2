@@ -7,22 +7,20 @@ namespace Metaverse
     public class BaseEntity : MonoBehaviour
     {
         public float moveSpeed = 5f;     // 이동 속도
-        public float jumpHeight = 2f;    // 점프 높이
+        public float jumpHeight = 0.5f;  // 점프 높이 (0.5)
         public float jumpDuration = 0.3f; // 점프 지속 시간
-        public float gravity = 9.8f;     // 중력 가속도
+        public float verticalMoveSpeed = 3f; // Y축 이동 속도 (E/Q)
 
-        protected Vector2 moveInput;
-        private bool isJumping = false;
-        private bool isGrounded = true;
-        private float jumpStartTime;
-        private float velocityY = 0f; // 현재 y축 속도 (중력 적용)
+        private Vector3 originalPosition; // 점프 전 위치 저장
+        private bool isJumping = false;   // 점프 상태 체크
 
         protected virtual void Update()
         {
             Move();
-            ApplyGravity();
-            Jump();
-            Interact();
+            if (!isJumping)
+            {
+                Jump();
+            }
         }
 
         protected void Move()
@@ -31,54 +29,47 @@ namespace Metaverse
             float moveZ = Input.GetAxis("Vertical");   // 앞뒤 이동 (Z축)
             float moveY = 0f;
 
-            if (Input.GetKey(KeyCode.E)) moveY = 1f;  // Y축 상승 (E 키)
-            if (Input.GetKey(KeyCode.Q)) moveY = -1f; // Y축 하강 (Q 키)
+            if (Input.GetKey(KeyCode.W)) moveY = 1f;  // Y축 상승 (W 키)
+            if (Input.GetKey(KeyCode.S)) moveY = -1f; // Y축 하강 (S 키)
 
-            moveInput = new Vector2(moveX, moveZ).normalized;
-
-            Vector3 moveVector = new Vector3(moveInput.x, moveY, moveInput.y) * moveSpeed * Time.deltaTime;
-            moveVector.y += velocityY * Time.deltaTime; // 중력 적용
-
+            Vector3 moveVector = new Vector3(moveX, moveY * verticalMoveSpeed, moveZ).normalized * moveSpeed * Time.deltaTime;
             transform.position += moveVector;
         }
 
         protected void Jump()
         {
-            if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+            if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
             {
-                isJumping = true;
-                isGrounded = false;
-                jumpStartTime = Time.time;
-                velocityY = Mathf.Sqrt(2 * gravity * jumpHeight); // 점프 속도 설정
+                StartCoroutine(JumpRoutine());
             }
         }
 
-        protected void ApplyGravity()
+        private IEnumerator JumpRoutine()
         {
-            if (!isGrounded)
+            isJumping = true;
+            originalPosition = transform.position;
+            Vector3 jumpTarget = originalPosition + new Vector3(0, jumpHeight, 0);
+
+            float elapsedTime = 0f;
+            while (elapsedTime < jumpDuration / 2) // 상승
             {
-                velocityY -= gravity * Time.deltaTime; // 중력 적용
+                transform.position = Vector3.Lerp(originalPosition, jumpTarget, (elapsedTime / (jumpDuration / 2)));
+                elapsedTime += Time.deltaTime;
+                yield return null;
             }
 
-            // 바닥에 닿았는지 확인 (현재 높이가 0 이하이며, 아래로 떨어지는 중이면 착지)
-            if (transform.position.y <= 0f && velocityY <= 0f)
-            {
-                isGrounded = true;
-                velocityY = 0f;
-                transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z); // 바닥 위치 유지
-            }
-            else
-            {
-                isGrounded = false;
-            }
-        }
+            transform.position = jumpTarget; // 최고점 유지
 
-        protected void Interact()
-        {
-            if (Input.GetKeyDown(KeyCode.F))
+            elapsedTime = 0f;
+            while (elapsedTime < jumpDuration / 2) // 하강
             {
-                Debug.Log("상호작용 실행!");
+                transform.position = Vector3.Lerp(jumpTarget, originalPosition, (elapsedTime / (jumpDuration / 2)));
+                elapsedTime += Time.deltaTime;
+                yield return null;
             }
+
+            transform.position = originalPosition; // 원래 위치 복귀
+            isJumping = false;
         }
     }
 }

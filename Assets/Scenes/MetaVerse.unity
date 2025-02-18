@@ -391,7 +391,7 @@ GameObject:
   - component: {fileID: 1401445897}
   - component: {fileID: 1401445899}
   - component: {fileID: 1401445898}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7887,7 +7887,7 @@ MonoBehaviour:
   moveSpeed: 3
   jumpHeight: 0.3
   jumpDuration: 0.3
-  gravity: 9.8
+  verticalMoveSpeed: 3
   playerName: Player
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
