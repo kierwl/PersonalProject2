@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Topdown
 {
+    using System;
+    using UnityEngine;
+
     public class ResourceController : MonoBehaviour
     {
         [SerializeField] private float healthChangeDelay = .5f;
@@ -16,7 +19,11 @@ namespace Topdown
 
         public float CurrentHealth { get; private set; }
         public float MaxHealth => statHandler.Health;
+
         public AudioClip damageClip;
+
+        private Action<float, float> OnChangeHealth;
+
         private void Awake()
         {
             statHandler = GetComponent<StatHandler>();
@@ -53,12 +60,14 @@ namespace Topdown
             CurrentHealth = CurrentHealth > MaxHealth ? MaxHealth : CurrentHealth;
             CurrentHealth = CurrentHealth < 0 ? 0 : CurrentHealth;
 
+            OnChangeHealth?.Invoke(CurrentHealth, MaxHealth);
+
             if (change < 0)
             {
                 animationHandler.Damage();
-                if (damageClip != null)
-                    SoundManager.PlayClip(damageClip);
 
+                if (damageClip)
+                    SoundManager.PlayClip(damageClip);
             }
 
             if (CurrentHealth <= 0f)
@@ -72,6 +81,16 @@ namespace Topdown
         private void Death()
         {
             baseController.Death();
+        }
+
+        public void AddHealthChangeEvent(Action<float, float> action)
+        {
+            OnChangeHealth += action;
+        }
+
+        public void RemoveHealthChangeEvent(Action<float, float> action)
+        {
+            OnChangeHealth -= action;
         }
 
     }
