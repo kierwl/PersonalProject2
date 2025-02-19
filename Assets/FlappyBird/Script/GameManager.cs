@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public GameEndHandler gameEndHandler;
     static GameManager gameManager;
+    
 
     public static GameManager Instance
     {
@@ -34,6 +36,8 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         Debug.Log("Game Over");
+        ScoreManager.SaveStackBestScore(currentScore);
+        gameEndHandler.OnGameEnd(currentScore);
         uiManager.SetRestart();
     }
 
