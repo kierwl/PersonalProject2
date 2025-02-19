@@ -1,58 +1,60 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+
+public enum UIState
+{
+    Home,
+    Game,
+    GameOver,
+}
 
 public class UIManager : MonoBehaviour
 {
-    public TextMeshProUGUI scoreText;
-    public Button restartButton;  // 재시작 버튼
-    public Button exitButton;     // 종료 버튼 추가
+    private HomeUI homeUI;
+    private GameUI gameUI;
+    private GameOverUI gameOverUI;
+    private UIState currentState;
 
-    private void Start()
+
+    private void Awake()
     {
-        if (restartButton == null)
-        {
-            Debug.LogError("Restart Button is not assigned in the Inspector!");
-        }
-        if (exitButton == null)
-        {
-            Debug.LogError("Exit Button is not assigned in the Inspector!");
-        }
-        if (scoreText == null)
-        {
-            Debug.LogError("scoreText is null");
-            return;
-        }
+        homeUI = GetComponentInChildren<HomeUI>(true);
+        homeUI.Init(this);
+        gameUI = GetComponentInChildren<GameUI>(true);
+        gameUI.Init(this);
+        gameOverUI = GetComponentInChildren<GameOverUI>(true);
+        gameOverUI.Init(this);
 
-        restartButton.gameObject.SetActive(false);
-        exitButton.gameObject.SetActive(false);
-
-        restartButton.onClick.AddListener(RestartGame); // 재시작 버튼 이벤트
-        exitButton.onClick.AddListener(ExitGame);       // 종료 버튼 이벤트
-    }
-
-    public void SetRestart()
-    {
-        restartButton.gameObject.SetActive(true);
-        exitButton.gameObject.SetActive(true); // 게임 오버 시 종료 버튼도 활성화
+        ChangeState(UIState.Home);
     }
 
     public void UpdateScore(int score)
     {
-        scoreText.text = score.ToString();
+        if (gameUI != null)
+        {
+            gameUI.UpdateScoreText(score);
+        }
     }
 
-    public void RestartGame()
+    public void SetPlayGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // 현재 씬 다시 로드
+        ChangeState(UIState.Game);
     }
 
-    public void ExitGame()
+    public void SetGameOver()
     {
-        SceneManager.LoadScene("MetaVerse");
+        ChangeState(UIState.GameOver);
+    }
+
+    public void ChangeState(UIState state)
+    {
+        currentState = state;
+        homeUI.SetActive(currentState);
+        gameUI.SetActive(currentState);
+        gameOverUI.SetActive(currentState);
     }
 }
+
+
