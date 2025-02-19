@@ -47,13 +47,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a043200cfdacc9e4e90a0d18da88a0ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highPosY: 1
-  lowPosY: -1
-  holeSizeMin: 1
-  holeSizeMax: 3
+  highPosY: 0.1
+  lowPosY: -0.1
+  holeSizeMin: 0.5
+  holeSizeMax: 2
   topObject: {fileID: 3440679015508991785}
   bottomObject: {fileID: 7519505897878270431}
-  widthPadding: 4
+  widthPadding: 3
 --- !u!61 &1298923588187928930
 BoxCollider2D:
   m_ObjectHideFlags: 0
