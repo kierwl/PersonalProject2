@@ -1,18 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Metaverse;
 
-public class RideableController : MonoBehaviour
+public class RideableController : BaseEntity
 {
-    public float speed = 5f;
     private bool isRiding = false;
 
-    void Update()
+    protected override void Update()
     {
-        if (!isRiding) return;
-
-        float move = Input.GetAxis("Horizontal");
-        transform.Translate(Vector3.right * move * speed * Time.deltaTime);
+        if (isRiding)
+        {
+            base.Update(); // 탑승 중일 때만 이동 가능
+        }
     }
 
     public void SetRiding(bool riding)
