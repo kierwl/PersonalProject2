@@ -4,6 +4,7 @@ namespace StackNamespace
 {
     public class TheStack : MonoBehaviour
     {
+        public GameEndHandler gameEndHandler;
         // Const Value
         private const float BoundSize = 3.5f;
         private const float MovingBoundsSize = 3f;
@@ -84,6 +85,8 @@ namespace StackNamespace
                     isGameOver = true;
                     GameOverEffect();
                     UIManager.Instance.SetScoreUI();
+                    ScoreManager.SaveStackBestScore(bestScore);
+                    gameEndHandler.OnGameEnd(bestScore);
                 }
             }
 
@@ -302,7 +305,6 @@ namespace StackNamespace
                 Debug.Log("최고 점수 갱신");
                 bestScore = stackCount;
                 bestCombo = maxCombo;
-
                 PlayerPrefs.SetInt(BestScoreKey, bestScore);
                 PlayerPrefs.SetInt(BestComboKey, bestCombo);
             }
