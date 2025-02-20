@@ -8,13 +8,13 @@ namespace Topdown
 {
     public class PlayerController : BaseController
     {
-        private Camera camera;
+        private Camera playerCamera;
         private GameManager gameManager;
 
         public void Init(GameManager gameManager)
         {
             this.gameManager = gameManager;
-            camera = Camera.main;
+            playerCamera = Camera.main;
         }
 
         protected override void HandleAction()
@@ -37,7 +37,7 @@ namespace Topdown
         void OnLook(InputValue inputValue)
         {
             Vector2 mousePosition = inputValue.Get<Vector2>();
-            Vector2 worldPos = camera.ScreenToWorldPoint(mousePosition);
+            Vector2 worldPos = playerCamera.ScreenToWorldPoint(mousePosition);
             lookDirection = (worldPos - (Vector2)transform.position);
 
             if (lookDirection.magnitude < .9f)
