@@ -5,8 +5,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterCustomization : MonoBehaviour, IInteractable
+public class CharacterCustomization : MonoBehaviour// IInteractable
 {
+    private Chest chest;
     public Animator animator; // 캐릭터 애니메이터
     public AnimatorOverrideController[] skinOverrides; // 스킨 리스트
     public Image skinPreview; // UI에서 미리보기 이미지
@@ -27,10 +28,8 @@ public class CharacterCustomization : MonoBehaviour, IInteractable
 
         if (skinNameText != null)
             skinNameText.text = "Skin: " + (currentSkinIndex + 1);
+
+
     }
 
-    public void Interact()
-    {
-        ChangeSkin();
-    }
 }
